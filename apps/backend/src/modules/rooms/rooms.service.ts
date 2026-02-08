@@ -73,11 +73,11 @@ export class RoomService {
   }
 
   /**
-   * Запуск записи комнаты с сохранением в MinIO S3
+   * Запуск записи комнаты с сохранением в S3
    */
   async startRoomRecording(roomName: string) {
     this.logger.log('📹 Starting recording for room:', roomName);
-    this.logger.log('☁️ Using S3/MinIO storage');
+    this.logger.log('☁️ Using S3 storage');
 
     // Настройка S3 upload
     const s3Config = {
@@ -131,7 +131,7 @@ export class RoomService {
       const info = await this.egressClient.stopEgress(egressId);
 
       this.logger.log('✅ Recording stopped');
-      this.logger.log('📦 File saved to S3/MinIO');
+      this.logger.log('📦 File saved to S3');
 
       return {
         success: true,
@@ -175,14 +175,14 @@ export class RoomService {
   }
 
   /**
-   * Получение URL для скачивания записи из MinIO
+   * Получение URL для скачивания записи из S3
    * (если нужен pre-signed URL для приватных файлов)
    */
   getRecordingUrl(roomName: string, filename: string): string {
-    const minioEndpoint = this.configService.get('MINIO_PUBLIC_ENDPOINT', 'http://localhost:9000');
-    const bucket = this.configService.get('MINIO_BUCKET', 'livekit-recordings');
+    const s3Endpoint = this.configService.get('S3_ENDPOINT', 'http://localhost:9000');
+    const bucket = this.configService.get('S3_BUCKET', 'livekit-recordings');
 
     // Публичный URL (если bucket публичный)
-    return `${minioEndpoint}/${bucket}/${roomName}/${filename}`;
+    return `${s3Endpoint}/${bucket}/${roomName}/${filename}`;
   }
 }
