@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { getDatabaseConfig } from './config/database.config';
 
+import { AuthModule } from './modules/auth/auth.module';
 import { SessionsModule } from './modules/sessions/sessions.module';
 
 @Module({
@@ -14,6 +15,7 @@ import { SessionsModule } from './modules/sessions/sessions.module';
       envFilePath: ['.env.local', '.env'],
     }),
     TypeOrmModule.forRoot(getDatabaseConfig()),
+    AuthModule,
     SessionsModule,
   ],
   controllers: [AppController],

@@ -1,4 +1,4 @@
-import 'reflect-metadata';
+import "reflect-metadata";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -7,17 +7,17 @@ import {
   BaseEntity,
   BeforeInsert,
   BeforeUpdate,
-} from 'typeorm';
+} from "typeorm";
 
 @Entity()
 export class CommonEntity extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: "created_at" })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: "updated_at" })
   updatedAt: Date;
 
   @BeforeInsert()
