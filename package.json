@@ -1,0 +1,28 @@
+{
+  "name": "livekit-webrtc",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LiveKit WebRTC",
+  "scripts": {
+    "dev": "npm --parallel --filter \"./apps/*\" dev",
+    "build": "npm --filter \"./apps/*\" build",
+    "lint": "npm --parallel --filter \"./apps/*\" lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\""
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.3"
+  }
+}

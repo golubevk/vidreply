@@ -1,0 +1,78 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: vidreply-postgres
+    environment:
+      POSTGRES_DB: vidreply_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_dev_password
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=en_US.UTF-8"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d vidreply_db"]  # Fixed DB name
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # NestJS Backend (Business Logic)
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+    container_name: vidreply-backend
+    environment:
+      # Application
+      NODE_ENV: "development"
+      PORT: "3001"
+      
+      # Database
+      DB_HOST: "postgres"
+      DB_PORT: "5432"
+      DB_USERNAME: "postgres"
+      DB_PASSWORD: "postgres_dev_password"
+      DB_NAME: "vidreply_db"
+      DB_SSL: "false"
+
+      # JWT
+      JWT_SECRET: "dev-secret-key-change-in-production"
+      
+      # Redis
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: "redis_dev_password"
+
+      # LiveKit
+      LIVEKIT_API_KEY: "devkey"
+      LIVEKIT_API_SECRET: "secret1234567890abcdefghijklmnopqrstuvwxyz"
+      LIVEKIT_WS_URL: "ws://localhost:7880"
+      LIVEKIT_URL: "http://127.0.0.1:7880"
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./apps/backend/src:/app/src:delegated
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: unless-stopped
+
+# Define networks
+networks:
+  app-network:
+    driver: bridge
+  interview-network:
+    external: true  # Используем внешнюю сеть из docker-compose.livekit.yml
+
+# Define volumes
+volumes:
+  postgres_data:

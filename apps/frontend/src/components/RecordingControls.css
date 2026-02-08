@@ -1,0 +1,80 @@
+.recording-controls {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 16px 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+.controls-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.status-message {
+  font-size: 14px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.error-message {
+  font-size: 14px;
+  color: #ff6b6b;
+  font-weight: 500;
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-record,
+.btn-stop {
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.btn-record {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  color: white;
+}
+
+.btn-record:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+}
+
+.btn-stop {
+  background: linear-gradient(135deg, #ffd93d 0%, #ff9a3d 100%);
+  color: #000;
+}
+
+.btn-stop:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 217, 61, 0.4);
+}
+
+.btn-record:disabled,
+.btn-stop:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.icon {
+  font-size: 18px;
+}
